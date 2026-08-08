@@ -68,12 +68,17 @@ def load_dataset():
         sep="\t"
     )
 
+    # Normalize column names
+    data.columns = (
+        data.columns
+        .str.strip()
+        .str.lower()
+    )
+
+    # Create cleaned question column
     data["question_clean"] = data["question"].apply(preprocess_text)
 
     return data
-
-faq_data = load_dataset()
-
 # ============================================================
 # BUILD TF-IDF
 # ============================================================
