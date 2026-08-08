@@ -94,7 +94,7 @@ def build_model(data):
 
     return vectorizer, matrix
 
-
+faq_data = load_dataset()
 vectorizer, tfidf_matrix = build_model(faq_data)
 
 # ============================================================
