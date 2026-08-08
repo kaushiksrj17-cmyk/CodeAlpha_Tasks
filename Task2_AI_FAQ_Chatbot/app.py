@@ -1,6 +1,6 @@
-import streamlit as st
+import os
 import pandas as pd
-from datetime import datetime
+import streamlit as st
 
 from preprocess import preprocess_text
 
@@ -57,30 +57,20 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ============================================================
-# LOAD DATASET
-# ============================================================
-
 @st.cache_data
 def load_dataset():
 
-   import os
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    DATA_PATH = os.path.join(BASE_DIR, "data", "faq.csv")
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_PATH = os.path.join(BASE_DIR, "data", "faq.csv")
-
-data = pd.read_csv(
-    DATA_PATH,
-    sep="\t"
-)
+    data = pd.read_csv(
+        DATA_PATH,
+        sep="\t"
     )
 
-    data["Processed_Question"] = data[
-        "Question"
-    ].apply(preprocess_text)
+    data["question_clean"] = data["question"].apply(preprocess_text)
 
     return data
-
 
 faq_data = load_dataset()
 
